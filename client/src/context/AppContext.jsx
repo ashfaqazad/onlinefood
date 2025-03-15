@@ -5,6 +5,8 @@ const AppContext = createContext();
 const initialState = {
     basket: [],
     user: JSON.parse(localStorage.getItem("user")) || null, // Load from localStorage
+    userEmail: localStorage.getItem("userEmail") || "", // Store email in context
+
 };
 
 // Function to calculate total price
@@ -90,7 +92,9 @@ const appReducer = (state, action) => {
     }
     
 
-
+    case "CLEAR_BASKET":
+      return { ...state, basket: [] };
+  
 
 
     // case "INCREASE_QUANTITY": {
@@ -129,6 +133,7 @@ export const AppProvider = ({ children }) => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
         if (storedUser && !state.user) {
             dispatch({ type: 'SET_USER', payload: storedUser });
+            
         }
     }, []);
 

@@ -20,6 +20,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const authToken = Cookies.get("token") || localStorage.getItem("token");
+  console.log(localStorage.getItem("token"));
+console.log(localStorage.getItem("userEmail"));
+
 
   // ✅ Cart Items Count (Ye Automatically Update Hoga)
   const totalCartItems = state.basket.reduce((total, item) => total + item.quantity, 0);
@@ -56,23 +59,58 @@ const Navbar = () => {
   //   }
   // };
   
+  // const handleLogout = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  
+  //     await axios.post("http://localhost:5000/api/logout", {}, {
+  //       headers: { Authorization: `Bearer ${token}` }
+  //     });
+  
+  //     localStorage.removeItem("token");
+  //     localStorage.removeItem("user");
+  //     localStorage.removeItem("userEmail");
+
+  //     dispatch({ type: "LOGOUT" });
+  //     navigate('/loginPage')
+  //   } catch (error) {
+  //     console.error("Logout Error:", error);
+  //   }
+  // };
+  
+
+
+
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
   
-      await axios.post("http://localhost:5000/api/logout", {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      if (token) {
+        await axios.post("http://localhost:5000/api/logout", {}, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      }
   
+      // Ensure all user data is cleared
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("userEmail");
+  
       dispatch({ type: "LOGOUT" });
-      navigate('/loginPage')
+      navigate('/loginPage');
     } catch (error) {
       console.error("Logout Error:", error);
     }
   };
   
+
+
+  useEffect(() => {
+    console.log("User Email on App Load:", localStorage.getItem("userEmail"));
+    console.log("Token on App Load:", localStorage.getItem("token"));
+  }, []);
+  
+
 
   // const handleLogout = async () => {
   //   try {

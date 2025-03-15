@@ -49,39 +49,88 @@ router.post("/register", [
 
 
 
-    // Login Route
+//     // Login Route
+// router.post('/login', async (req, res) => {
+//     const { email, password } = req.body;
+  
+//     try {
+//         // Find user by email
+//         const user = await User.findOne({ email });
+//         if (!user) {
+//             return res.status(400).json({ status: 'error', message: 'Invalid email or password' });
+//         }
+  
+//         // Compare password
+//         const isPasswordValid = await bcrypt.compare(password, user.password);
+//         if (!isPasswordValid) {
+//             return res.status(400).json({ status: 'error', message: 'Invalid email or password' });
+//         }
+  
+//         // Generate JWT token with user ID & username
+//         const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  
+//         // Set token in httpOnly cookie
+//         res.cookie('authToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 3600000 });
+  
+//         res.status(200).json({
+//             status: 'success',
+//             message: 'Login successful',
+//             token,
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+//     }
+//   });
+
+
+
+
+
+
+// Login Route
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-        // Find user by email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ status: 'error', message: 'Invalid email or password' });
-        }
-  
-        // Compare password
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(400).json({ status: 'error', message: 'Invalid email or password' });
-        }
-  
-        // Generate JWT token with user ID & username
-        const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  
-        // Set token in httpOnly cookie
-        res.cookie('authToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 3600000 });
-  
-        res.status(200).json({
-            status: 'success',
-            message: 'Login successful',
-            token,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
-    }
-  });
+  const { email, password } = req.body;
+
+  try {
+      // Find user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(400).json({ status: 'error', message: 'Invalid email or password' });
+      }
+
+      // Compare password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+          return res.status(400).json({ status: 'error', message: 'Invalid email or password' });
+      }
+
+      // Generate JWT token with user ID, username & email
+      const token = jwt.sign(
+          { id: user._id, username: user.username, email: user.email }, // ✅ Fix: Email added in token payload
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+      );
+
+      // Set token in httpOnly cookie
+      res.cookie('authToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 3600000 });
+
+      // ✅ Fix: Include `email` & `username` in response
+      res.status(200).json({
+          status: 'success',
+          message: 'Login successful',
+          token,
+          id: user._id,
+          username: user.username,
+          email: user.email, // ✅ Fix: Email added in response
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+});
+
+
 
 
 

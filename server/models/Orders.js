@@ -19,6 +19,11 @@ const ItemSchema = new Schema({
         type: String, 
         default: null  // Default value if image is not provided
     },
+
+    quantity: { 
+        type: Number, 
+        required: true }, // ✅ Ensure quantity is required
+
     total: { 
         type: Number, 
         required: true 
@@ -32,6 +37,7 @@ const OrdersSchema = new mongoose.Schema({
         required: true
     },
     orders_data: [ItemSchema],  // Using ItemSchema here for items
+    order_date: { type: Date, default: Date.now } // ✅ Added order date
     
      // Default empty array for orderHistory
 });

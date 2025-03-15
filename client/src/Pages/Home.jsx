@@ -14,7 +14,7 @@ const Home = () => {
         try {
             const response = await axios.post("http://localhost:5000/api/foodData");
     
-            console.clear();
+            // console.clear();
             console.log("✅ API Response:", response.data);
     
             if (response.data) {

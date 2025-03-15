@@ -5,59 +5,75 @@ import { Container, Typography, Card, CardContent, CardMedia, Grid } from '@mui/
 const MyOrders = () => {
     const [orders, setOrders] = useState([]);
 
+
     useEffect(() => {
         const fetchOrders = async () => {
-            const email = localStorage.getItem('userEmail');
+            const storedUser = localStorage.getItem("user");
+            const userEmail = storedUser ? JSON.parse(storedUser).email : null;
+    
+            if (!userEmail) {
+                console.error("User email missing");
+                return;
+            }
+    
             try {
-                const response = await axios.post('http://localhost:5000/api/myOrderData', { email });
-                console.log('Response Data:', response.data);
-                setOrders(response.data.orderdata || []);
+                const response = await axios.post("http://localhost:5000/api/myOrderData", { email: userEmail });
+                setOrders(response.data.orderdata);  // Ensure state is updating
             } catch (error) {
-                console.error('Failed to fetch orders:', error);
+                console.error("Error fetching orders:", error);
             }
         };
+    
         fetchOrders();
     }, []);
+    
 
     return (
-        <Container sx={{ padding: 4 }}>
-            <Typography variant="h4" gutterBottom>My Orders</Typography>
-            {orders.length > 0 ? (
-                orders.map((order, index) => (
-                    <Card key={order._id} sx={{ marginBottom: 3, boxShadow: 3 }}>
-                        <CardContent>
-                            <Typography variant="h6">Order {index + 1}</Typography>
-                            <Typography variant="subtitle1">Email: {order.email}</Typography>
-                            <Typography variant="h6" mt={2}>Checkout Data:</Typography>
-                            <Grid container spacing={2} mt={1}>
-                                {order.orders_data.map((item) => (
-                                    <Grid item xs={12} sm={6} md={4} key={item.id}>
-                                        <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}>
-                                            <CardMedia
-                                                component="img"
-                                                height="100"
-                                                image={item.image}
-                                                alt={item.title}
-                                                sx={{ objectFit: 'contain' }}
-                                            />
-                                            <CardContent>
-                                                <Typography variant="body1"><strong>Title:</strong> {item.title}</Typography>
-                                                <Typography variant="body2"><strong>Price:</strong> Rs. {item.price}</Typography>
-                                                <Typography variant="body2"><strong>Rating:</strong> {item.rating}</Typography>
-                                                <Typography variant="body2"><strong>Total:</strong> Rs. {item.total}</Typography>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                ))}
+
+<Container sx={{ padding: 4 }}>
+    <Typography variant="h4" gutterBottom>My Orders</Typography>
+    {orders.length > 0 ? (
+        orders.map((order, index) => (
+            <Card key={order._id} sx={{ marginBottom: 3, boxShadow: 3, bgcolor: "#f5f5f5" }}>
+                <CardContent>
+                    <Typography variant="h6">Order {index + 1}</Typography>
+                    <Typography variant="subtitle1">Email: {order.email}</Typography>
+
+                    {/* ✅ Order Date Added Here */}
+                    <Typography variant="subtitle2" color="textSecondary">
+                        <strong>Order Date:</strong> {new Date(order.order_date).toLocaleDateString()}
+                    </Typography>
+
+                    <Typography variant="h6" mt={2}>Checkout Data:</Typography>
+                    <Grid container spacing={2} mt={1}>
+                        {order.orders_data.map((item) => (
+                            <Grid item xs={12} sm={6} md={4} key={item.id}>
+                                <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}>
+                                    <CardMedia
+                                        component="img"
+                                        height="100"
+                                        image={item.image}
+                                        alt={item.title}
+                                        sx={{ objectFit: 'contain' }}
+                                    />
+                                    <CardContent>
+                                        <Typography variant="body1"><strong>Title:</strong> {item.title}</Typography>
+                                        <Typography variant="body2"><strong>Price:</strong> Rs. {item.price}</Typography>
+                                        <Typography variant="body2"><strong>Total:</strong> Rs. {item.total}</Typography>
+                                        <Typography variant="body2"><strong>Quantity:</strong> {item.quantity}</Typography>
+                                    </CardContent>
+                                </Card>
                             </Grid>
-                        </CardContent>
-                    </Card>
-                ))
-            ) : (
-                <Typography>No orders found.</Typography>
-            )}
-        </Container>
-    );
+                        ))}
+                    </Grid>
+                </CardContent>
+            </Card>
+        ))
+    ) : (
+        <Typography>No orders found.</Typography>
+    )}
+</Container>
+);
 };
 
 export default MyOrders;
