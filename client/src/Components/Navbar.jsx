@@ -24,7 +24,7 @@ const Navbar = () => {
       const token = localStorage.getItem("token");
 
       if (token) {
-        await axios.post("http://localhost:5000/api/logout", {}, {
+        await axios.post("http://localhost:4000/api/logout", {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }

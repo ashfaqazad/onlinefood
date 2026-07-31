@@ -20,20 +20,6 @@ router.post('/foodData', (req, res) => {
 });
 
 
-// router.post('/foodData', (req, res) => {
-//     console.log("✅ /foodData route hit!");
-
-//     try {
-//         if (!global.food_items || !global.food_category) {
-//             return res.status(500).json({ error: "Data not available yet" });
-//         }
-        
-//         res.send({ foodItems: global.food_items, foodCategory: global.food_category });
-//     } catch (error) {
-//         console.error("Error:", error);
-//         res.status(500).json({ error: "Internal Server Error" });
-//     }
-// });
 
 
 

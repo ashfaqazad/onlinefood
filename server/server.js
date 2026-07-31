@@ -12,7 +12,7 @@ const app = express();
 
 // ✅ CORS configuration
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5174',
   credentials: true,
 };
 app.use(cors(corsOptions)); // ✅ Only use this
@@ -32,7 +32,7 @@ app.use('/api', ordersData);
 const DATABASE = process.env.DATABASE;
 mongoose.connect(DATABASE);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 mongoDB();
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

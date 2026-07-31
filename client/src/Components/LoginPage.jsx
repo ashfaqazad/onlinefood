@@ -22,8 +22,8 @@ const LoginPage = () => {
     setError(""); // Reset previous errors
 
     const url = activeButton === "register"
-      ? "http://localhost:5000/api/register"
-      : "http://localhost:5000/api/login";
+      ? "http://localhost:4000/api/register"
+      : "http://localhost:4000/api/login";
 
     axios.post(url, formData, { withCredentials: true })
       .then((res) => {

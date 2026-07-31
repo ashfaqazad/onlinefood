@@ -12,7 +12,7 @@ const MenuPage = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/foodData");
+            const response = await axios.post("http://localhost:4000/api/foodData");
     
             console.clear();
             console.log("✅ API Response:", response.data);

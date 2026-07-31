@@ -12,7 +12,7 @@ const Home = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/foodData");
+            const response = await axios.post("http://localhost:4000/api/foodData");
     
             // console.clear();
             console.log("✅ API Response:", response.data);
@@ -26,21 +26,6 @@ const Home = () => {
         }
     };
     
-    // const getData = async () => {
-    //     try {
-    //         const response = await axios.post("http://localhost:5000/api/foodData");
-
-    //         console.clear(); // 🔴 Console clear karega taake repeat na ho
-    //         console.log("✅ API Response:", response.data);
-
-    //         if (response.data) {
-    //             // setFoodCategory(response.data.foodCategory || []);
-    //             setFoodItems(response.data.foodItems || []);
-    //         }
-    //     } catch (error) {
-    //         console.error("❌ Error fetching data:", error);
-    //     }
-    // };
 
     useEffect(() => {
         getData();
@@ -66,6 +51,25 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+    // const getData = async () => {
+    //     try {
+    //         const response = await axios.post("http://localhost:5000/api/foodData");
+
+    //         console.clear(); // 🔴 Console clear karega taake repeat na ho
+    //         console.log("✅ API Response:", response.data);
+
+    //         if (response.data) {
+    //             // setFoodCategory(response.data.foodCategory || []);
+    //             setFoodItems(response.data.foodItems || []);
+    //         }
+    //     } catch (error) {
+    //         console.error("❌ Error fetching data:", error);
+    //     }
+    // };
+
 
 
 
