@@ -13,7 +13,7 @@ const Home = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.post(`${API_URL}/api/foodData`);
+            const response = await axios.post(`${API_URL}/foodData`);
     
             // console.clear();
             console.log("✅ API Response:", response.data);

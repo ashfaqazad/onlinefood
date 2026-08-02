@@ -28,8 +28,8 @@ const LoginPage = () => {
     //   : "http://localhost:4000/api/login";
     const url =
   activeButton === "register"
-    ? `${API_URL}/api/register`
-    : `${API_URL}/api/login`;
+    ? `${API_URL}/register`
+    : `${API_URL}/login`;
 
     axios.post(url, formData, { withCredentials: true })
       .then((res) => {
