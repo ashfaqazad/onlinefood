@@ -1,18 +1,19 @@
 import { 
-  Drawer, List, ListItem, ListItemText, IconButton, 
-  Typography, Button, Box, Avatar, Paper
+  Drawer, List, ListItem, IconButton, 
+  Typography, Button, Box, Avatar,
 } from "@mui/material";
+import API_URL from "../config";
 import { useAppContext } from "../context/AppContext";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 const CartDrawer = ({ open, onClose }) => {
   const { state, dispatch } = useAppContext();
   const basket = state.basket; // Ensuring consistent reference
-  const [userEmail, setUserEmail] = useState(null);
+//   const [userEmail, setUserEmail] = useState(null);
 
   const total = basket.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -20,15 +21,15 @@ const CartDrawer = ({ open, onClose }) => {
 
 
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("userEmail");
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem("userEmail");
   
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser); // ✅ String ko object me convert karo
-      console.log("📩 Parsed User Email:", parsedUser.email);
-      setUserEmail(parsedUser.email); // ✅ Sirf email ko store karo state me
-    }
-  }, [open]);
+//     if (storedUser) {
+//       const parsedUser = JSON.parse(storedUser); // ✅ String ko object me convert karo
+//       console.log("📩 Parsed User Email:", parsedUser.email);
+//     //   setUserEmail(parsedUser.email); // ✅ Sirf email ko store karo state me
+//     }
+//   }, [open]);
 
   
 
@@ -49,13 +50,10 @@ const CartDrawer = ({ open, onClose }) => {
         return;
     }
 
-
-
-
     try {
 
-        const response = await axios.post("http://localhost:4000/api/orders", {
-            email: userEmail,
+const response = await axios.post(`${API_URL}/api/orders`, {
+         email: userEmail,
             orders_data: basket.map(item => ({
                 id: item._id,  // `_id` ko `id` mein convert kar diya
                 title: item.name, // `name` ko `title` mein convert kar diya

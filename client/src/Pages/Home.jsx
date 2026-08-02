@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import API_URL from "../config";
 import axios from "axios";
 import Slider from "./Slider";
 import Cards from "./Cards";
@@ -12,7 +13,7 @@ const Home = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.post("http://localhost:4000/api/foodData");
+            const response = await axios.post(`${API_URL}/api/foodData`);
     
             // console.clear();
             console.log("✅ API Response:", response.data);

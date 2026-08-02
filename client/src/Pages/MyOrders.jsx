@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import API_URL from "../config";
 import axios from 'axios';
 import { Container, Typography, Card, CardContent, CardMedia, Grid } from '@mui/material';
 import { useAppContext } from "../context/AppContext";
@@ -20,7 +21,7 @@ const MyOrders = () => {
             }
     
             try {
-                const response = await axios.post("http://localhost:4000/api/myOrderData", { email: userEmail });
+                const response = await axios.post(`${API_URL}/api/myOrderData`, { email: userEmail });
                 setOrders(response.data.orderdata);  // Ensure state is updating
             } catch (error) {
                 console.error("Error fetching orders:", error);

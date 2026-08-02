@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import API_URL from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
@@ -21,9 +23,13 @@ const LoginPage = () => {
     e.preventDefault();
     setError(""); // Reset previous errors
 
-    const url = activeButton === "register"
-      ? "http://localhost:4000/api/register"
-      : "http://localhost:4000/api/login";
+    // const url = activeButton === "register"
+    //   ? "http://localhost:4000/api/register"
+    //   : "http://localhost:4000/api/login";
+    const url =
+  activeButton === "register"
+    ? `${API_URL}/api/register`
+    : `${API_URL}/api/login`;
 
     axios.post(url, formData, { withCredentials: true })
       .then((res) => {
