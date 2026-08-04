@@ -22,10 +22,13 @@ const mongoDB = async () => {
         db.once("open", async () => {
             try {
                 // Database ab ready hai, ab collection fetch karein
-                const fetched_foodItems = db.db.collection("food_items");
+                // const fetched_foodItems = db.db.collection("food_items");
+                const fetched_foodItems = db.db.collection("foods");
+
                 const foodItemsData = await fetched_foodItems.find({}).toArray();
 
-                const fetched_foodCategory = db.db.collection("food_category");
+                // const fetched_foodCategory = db.db.collection("food_category");
+                const fetched_foodCategory = db.db.collection("categories");
                 const foodCategoryData = await fetched_foodCategory.find({}).toArray();
                 
                 global.food_items = foodItemsData;  
